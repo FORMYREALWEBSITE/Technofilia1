@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QuantumLeap — Quantum AI as a Service (QaaS)</title>
+  <meta name="description" content="QuantumLeap provides Quantum AI as a Service for medicine, finance, and logistics."/>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <!-- Lucide icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.js" defer></script>
+    <!-- jsPDF for ROI export -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+  <!-- App -->
+  <script src="app.js" type="module" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container row row--between row--center">
+      <a href="#/" class="brand" aria-label="QuantumLeap home" id="brand-link">
+        <svg class="brand__logo" viewBox="0 0 180 32" aria-hidden="true">
+          <defs><linearGradient id="brand-g" x1="0" x2="1">
+            <stop offset="0%" stop-color="#55D6FF"/><stop offset="100%" stop-color="#8B6CFF"/>
+          </linearGradient></defs>
+          <text x="0" y="24" font-size="22" font-family="Inter, system-ui, Segoe UI, Roboto" fill="url(#brand-g)">QuantumLeap</text>
+        </svg>
+        <span class="brand__tag">QaaS</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <button class="nav__toggle" aria-expanded="false" aria-controls="navmenu" id="nav-toggle">
+          <i data-lucide="menu"></i><span class="sr-only">Menu</span>
+        </button>
+        <ul class="nav__menu" id="navmenu">
+          <li><a href="#/" data-link>Home</a></li>
+          <li><a href="#/solutions" data-link>Solutions</a></li>
+          <li><a href="#/platform" data-link>Platform</a></li>
+          <li><a href="#/pricing" data-link>Pricing</a></li>
+          <li><a href="#/resources" data-link>Resources</a></li>
+          <li><a href="#/about" data-link>About</a></li>
+          <li><a href="#/contact" data-link>Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-ctas row row--center">
+        <button class="btn btn--ghost" id="jargon-toggle" aria-pressed="false" title="Toggle No-Jargon Mode">
+          <i data-lucide="sparkles"></i><span class="hide-on-sm"> No-Jargon</span>
+        </button>
+        <button class="btn btn--ghost" id="theme-toggle" title="Toggle Theme">
+          <i data-lucide="moon"></i><span class="hide-on-sm"> Theme</span>
+        </button>
+        <a href="#/contact" class="btn btn--primary">Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- App -->
+  <main id="app" class="app container" tabindex="-1" aria-live="polite"></main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container grid grid--3">
+      <section>
+        <h4>QuantumLeap</h4>
+        <p>Hybrid quantum-classical optimization for medicine, finance, and logistics.</p>
+        <div class="row">
+          <a class="chip" href="#/resources">Docs</a>
+          <a class="chip" href="#/about">Team</a>
+          <a class="chip" href="#/contact">Careers</a>
+        </div>
+      </section>
+      <section>
+        <h4>Legal</h4>
+        <ul class="list">
+          <li><a href="#" aria-disabled="true">Privacy</a></li>
+          <li><a href="#" aria-disabled="true">Security</a></li>
+          <li><a href="#" aria-disabled="true">Terms</a></li>
+        </ul>
+      </section>
+      <section>
+        <h4>Get Updates</h4>
+        <form id="newsletter-form" class="row">
+          <label for="newsletter" class="sr-only">Email address</label>
+          <input id="newsletter" type="email" required placeholder="you@company.com" />
+          <button class="btn btn--primary btn--sm" type="submit">Subscribe</button>
+        </form>
+        <div id="newsletter-status" class="form-status" role="status" aria-live="polite"></div>
+      </section>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> QuantumLeap.</div>
+  </footer>
+
+  <!-- HOME -->
+  <template id="view-home">
+    <section class="hero reveal">
+      <!-- layered canvases -->
+      <canvas id="stars-canvas" aria-hidden="true"></canvas>
+      <canvas id="quantum-canvas" aria-hidden="true"></canvas>
+      <canvas id="orbs-canvas" aria-hidden="true"></canvas>
+
+      <div class="hero__content">
+        <h1 data-jargon="Quantum acceleration for NP-hard problems">Make complex decisions 10× faster with Quantum AI</h1>
+        <p data-jargon="Hybrid QPU + CPU orchestration for variational circuits and annealing">
+          Practical, secure <strong>Quantum AI as a Service</strong> that cuts compute time & cost for
+          <strong>medicine</strong>, <strong>finance</strong>, and <strong>logistics</strong>.
+        </p>
+        <div class="row">
+          <a class="btn btn--primary pulse" href="#/contact">Request Consultation</a>
+          <button class="btn btn--outline" data-open="beta-modal">Join Our Beta</button>
+        </div>
+        <div class="hero__badges">
+          <span class="badge">SOC-like Controls</span>
+          <span class="badge">GDPR Ready</span>
+          <span class="badge">On-Prem & VPC</span>
+        </div>
+
+        <!-- Attractive beta card (replaces top bar) -->
+        <div class="beta-card card">
+          <div class="beta-card__left">
+            <div class="beta-dot"></div>
+            <strong>Beta Access</strong>
+            <span class="muted">Closes in <span id="beta-countdown">05:00</span> • <span id="beta-spots">3</span> spots left</span>
+          </div>
+          <button class="btn btn--primary btn--sm" data-open="beta-modal">Apply Now</button>
+        </div>
+
+        <!-- Image placeholder banner -->
+        <div class="img-ph img-ph--wide" aria-label="Product screenshot placeholder">
+          <i data-lucide="image"></i> Product UI Preview
+        </div>
+      </div>
+    </section>
+
+    <section class="trust reveal">
+      <div class="strip">
+        <span>Trusted by innovators</span>
+        <div class="logos">
+          <div class="logo img-ph--logo"><i data-lucide="hexagon"></i>BioSynth</div>
+          <div class="logo img-ph--logo"><i data-lucide="hexagon"></i>QFinAI</div>
+          <div class="logo img-ph--logo"><i data-lucide="hexagon"></i>MoveX</div>
+          <div class="logo img-ph--logo"><i data-lucide="hexagon"></i>HelixLab</div>
+          <div class="logo img-ph--logo"><i data-lucide="hexagon"></i>OptiChain</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid--3 reveal">
+      <div class="card kpi tilt">
+        <div class="img-ph img-ph--card" role="img" aria-label="Medicine use-case image">
+          <i data-lucide="flask-conical"></i>
+        </div>
+        <h3>Medicine</h3>
+        <p data-jargon="Protein-ligand docking shortlist via quantum-inspired search">Faster candidate discovery</p>
+        <div class="kpi__value">83% ↓ time</div>
+      </div>
+      <div class="card kpi tilt">
+        <div class="img-ph img-ph--card" role="img" aria-label="Finance use-case image">
+          <i data-lucide="chart-line"></i>
+        </div>
+        <h3>Finance</h3>
+        <p data-jargon="Portfolio risk/return frontier via QAOA">Smarter portfolios</p>
+        <div class="kpi__value">60% ↓ cost</div>
+      </div>
+      <div class="card kpi tilt">
+        <div class="img-ph img-ph--card" role="img" aria-label="Logistics use-case image">
+          <i data-lucide="truck"></i>
+        </div>
+        <h3>Logistics</h3>
+        <p data-jargon="Vehicle routing with constraints on a hybrid solver">Optimized routes</p>
+        <div class="kpi__value">22% ↓ miles</div>
+      </div>
+    </section>
+
+    <section class="grid responsive-two reveal">
+      <div class="card tilt">
+        <h3>Interactive ROI Estimator</h3>
+        <div id="roi-widget"></div>
+      </div>
+      <div class="card tilt">
+        <h3>Use-Case Simulator</h3>
+        <div id="simulator-widget"></div>
+      </div>
+    </section>
+
+    <section class="card reveal">
+      <h3>Beta Dashboard Sneak Peek</h3>
+      <div class="img-ph img-ph--wide" aria-label="Dashboard screenshot placeholder">
+        <i data-lucide="layout-dashboard"></i> Dashboard Preview
+      </div>
+      <div id="dashboard-widget" style="margin-top:12px"></div>
+    </section>
+
+    <section class="causel card reveal" aria-label="Client stories">
+      <div class="carousel__viewport" id="stories-track"></div>
+      <div class="carousel__controls">
+        <button class="btn btn--ghost" id="stories-prev" aria-label="Previous"><i data-lucide="chevron-left"></i></button>
+        <button class="btn btn--ghost" id="stories-next" aria-label="Next"><i data-lucide="chevron-right"></i></button>
+      </div>
+    </section>
+  </template>
+
+  <!-- SOLUTIONS -->
+  <template id="view-solutions">
+    <section class="tabs card reveal">
+      <div class="tabs__list" role="tablist" aria-label="Industries">
+        <button class="tab is-active" data-tab="medicine" role="tab" aria-selected="true">Medicine</button>
+        <button class="tab" data-tab="finance" role="tab">Finance</button>
+        <button class="tab" data-tab="logistics" role="tab">Logistics</button>
+      </div>
+      <div class="tabs__panels">
+        <div class="tab-panel is-active" id="tab-medicine" role="tabpanel"></div>
+        <div class="tab-panel" id="tab-finance" role="tabpanel"></div>
+        <div class="tab-panel" id="tab-logistics" role="tabpanel"></div>
+      </div>
+    </section>
+  </template>
+
+  <!-- PLATFORM -->
+  <template id="view-platform">
+    <section class="grid responsive-two reveal">
+      <div class="card tilt">
+        <h3>How It Works</h3>
+        <ol class="rail">
+          <li><strong>Ingest</strong> — connect data safely</li>
+          <li><strong>Hybrid Compute</strong> — <span data-jargon="VQE/QAOA over QPU + CPU orchestration">quantum + classical</span></li>
+          <li><strong>Optimize</strong> — solve constraints</li>
+          <li><strong>Deploy</strong> — API or on-prem</li>
+        </ol>
+        <div class="chips">
+          <span class="chip" data-jargon="Variational Circuits">Plain-English Mode</span>
+          <span class="chip">Audit Trails</span>
+          <span class="chip">SLA</span>
+        </div>
+      </div>
+      <div class="card tilt">
+        <h3>Interactive Diagram</h3>
+        <div class="img-ph img-ph--wide" aria-label="Platform diagram placeholder">
+          <i data-lucide="circuit-board"></i> Architecture
+        </div>
+        <div id="diagram-widget" style="margin-top:12px"></div>
+      </div>
+    </section>
+    <section class="card reveal">
+      <h3>Security & Compliance</h3>
+      <ul class="list list--icons" id="security-list"></ul>
+    </section>
+  </template>
+
+  <!-- PRICING -->
+  <template id="view-pricing">
+    <section class="pricing reveal">
+      <div class="row row--center pricing-toggle" role="tablist" aria-label="Billing period">
+        <button class="seg seg--active" id="bill-monthly" role="tab" aria-selected="true">Monthly</button>
+        <button class="seg" id="bill-annually" role="tab" aria-selected="false">Annually <span class="save">Save 20%</span></button>
+      </div>
+      <div class="grid responsive-three" id="pricing-cards"></div>
+      <div class="spacer"></div>
+      <div class="card">
+        <h3>Feature Comparison</h3>
+        <div id="pricing-table" class="table-scroll"></div>
+      </div>
+    </section>
+  </template>
+
+  <!-- RESOURCES -->
+  <template id="view-resources">
+    <section class="grid responsive-two reveal">
+      <div class="card tilt">
+        <h3>FAQ</h3>
+        <div id="faq-accordion" class="accordion"></div>
+      </div>
+      <div class="card tilt">
+        <h3>Glossary</h3>
+        <ul id="glossary" class="list"></ul>
+      </div>
+    </section>
+    <section class="card reveal">
+      <h3>Myth vs Reality</h3>
+      <div id="myths" class="grid responsive-two"></div>
+    </section>
+  </template>
+
+  <!-- ABOUT -->
+  <template id="view-about">
+    <section class="grid responsive-two reveal">
+      <div class="card">
+        <h3>Our Mission</h3>
+        <p>Make advanced optimization accessible and practical through hybrid quantum-classical AI.</p>
+        <h4>Timeline</h4>
+        <ul class="timeline" id="timeline"></ul>
+      </div>
+      <div class="card">
+        <h3>Team</h3>
+        <div id="team" class="grid responsive-two"></div>
+      </div>
+    </section>
+  </template>
+
+  <!-- CONTACT -->
+  <template id="view-contact">
+    <section class="grid responsive-two reveal">
+      <div class="card">
+        <h3>Talk to Us</h3>
+        <form id="contact-form" novalidate>
+          <div class="grid responsive-two">
+            <label>Full Name<input name="name" required /></label>
+            <label>Work Email<input type="email" name="email" required /></label>
+          </div>
+          <label>Company<input name="company" /></label>
+          <label>Use Case<select name="usecase">
+            <option>Medicine</option><option>Finance</option><option>Logistics</option><option>Other</option>
+          </select></label>
+          <label>Message<textarea name="message" rows="4" placeholder="What problem are you solving?"></textarea></label>
+          <div class="row row--between row--center">
+            <label class="switch">
+              <input type="checkbox" name="nda" />
+              <span>Send NDA</span>
+            </label>
+            <button class="btn btn--primary" type="submit">Send</button>
+          </div>
+          <div id="contact-status" class="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+      <div class="card">
+        <h3>Book a 15-Minute Discovery</h3>
+        <div class="calendar-embed">
+          <div class="skeleton">Calendar placeholder</div>
+        </div>
+        <h4>Locations</h4>
+        <div id="map" class="map"></div>
+      </div>
+    </section>
+  </template>
+
+  <!-- Beta Modal -->
+  <dialog id="beta-modal" class="modal">
+    <form method="dialog" class="modal__content">
+      <header class="modal__header">
+        <h3>Join Our Beta</h3>
+        <button class="icon-btn" value="cancel" aria-label="Close"><i data-lucide="x"></i></button>
+      </header>
+      <section class="modal__body">
+        <p>Be first to access our Quantum AI platform. Limited seats — priority for high-impact use cases.</p>
+        <label>Work Email<input id="beta-email" type="email" required placeholder="you@company.com" /></label>
+        <label>Primary Use Case<select id="beta-usecase">
+          <option>Medicine</option><option>Finance</option><option>Logistics</option><option>Other</option>
+        </select></label>
+        <label class="switch"><input type="checkbox" id="beta-nda"/><span>Request NDA</span></label>
+        <div id="beta-status" class="form-status" role="status" aria-live="polite"></div>
+      </section>
+      <footer class="modal__footer">
+        <button class="btn btn--ghost" value="cancel">Cancel</button>
+        <button class="btn btn--primary" id="beta-submit" value="default">Apply</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Chat FAB & Sheet -->
+  <button class="fab" id="chat-open" aria-label="Open Ask Qubit"><i data-lucide="message-circle"></i></button>
+  <section class="chat" id="chat" aria-label="Ask Qubit" aria-live="polite">
+    <header class="chat__header">
+      <div class="row row--center"><i data-lucide="bot"></i><strong> Ask Qubit</strong></div>
+      <button class="icon-btn" id="chat-close" aria-label="Close chat"><i data-lucide="chevron-down"></i></button>
+    </header>
+    <div class="chat__body" id="chat-body" role="log"></div>
+    <div class="chat__suggest">
+      <button class="chip" data-q="How can you help logistics?">Logistics</button>
+      <button class="chip" data-q="How secure is this?">Security</button>
+      <button class="chip" data-q="What is QaaS?">What is QaaS?</button>
+    </div>
+    <form class="chat__input" id="chat-form" autocomplete="off">
+      <input id="chat-text" placeholder="Ask about pricing, ROI, security…" aria-label="Type your question"/>
+      <button class="btn btn--primary btn--sm" type="submit">Send</button>
+    </form>
+  </section>
+</body>
+</html>
